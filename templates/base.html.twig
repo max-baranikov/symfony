@@ -1,3 +1,5 @@
+{% set authorized = (app.user != null) %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,6 +8,19 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        {% block header %}
+            <div class="logo"></div>
+        <div>{% block header__title %}Welcome!{% endblock %}</div>
+
+            <div class="profile">
+                {% if authorized %}
+                    <p>User: {{app.user.username}}</p>
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/login">Login</a>
+                {% endif %}
+            </div>
+        {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
