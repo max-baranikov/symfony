@@ -33,5 +33,5 @@ security:
         - { path: ^/admin/, role: ROLE_ADMIN }
         # Restrict access for unauthorized users
         - { path: ^/book/new, role: ROLE_USER, methods: [GET, POST]}        # for creating books
-        - { path: ^/book/\d/edit, role: ROLE_ADMIN, methods: [GET, POST]}    # for editing books
-        - { path: ^/book/\d, role: ROLE_ADMIN, methods: [DELETE]}            # for deleting books
+        - { path: ^/book/\d/edit, role: ROLE_USER, methods: [GET, POST]}    # for editing books
+        - { path: ^/book/\d, role: ROLE_USER, methods: [DELETE]}            # for deleting books

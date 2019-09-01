@@ -7,7 +7,7 @@
     {% if authorized %}
         <a href="{{ path('book_new') }}">Create new</a>
     {% endif %}
-
+    
     <table class="table">
         <thead>
             <tr>
@@ -31,7 +31,7 @@
                 <!-- <td>{{ book.authorId }}</td> -->
                 <td>
                 {% if book.downloadable %}
-                    <a href="{{ path('book_edit', {'id': book.id}) }}">download</a>
+                    <a href="{{ asset('uploads/books/' ~ book.bookFilename) }}">download</a>
                 {% endif %}
                 {% if authorized %}
                     <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>

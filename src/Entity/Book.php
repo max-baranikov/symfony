@@ -41,6 +41,23 @@ class Book
      */
     private $author_id;
 
+   /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $bookFilename;
+
+    public function getBookFilename(): ?string
+    {
+        return $this->bookFilename;
+    }
+
+    public function setBookFilename(?string $bookFilename): self
+    {
+        $this->bookFilename = $bookFilename;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
