@@ -1,5 +1,6 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_row(form.book_filename)}}
+    {{ form_row(form.cover_filename)}}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

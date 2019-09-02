@@ -4,45 +4,53 @@
 {% block header__title %}Book index{% endblock %}
 
 {% block body %}
-    {% if authorized %}
-        <a href="{{ path('book_new') }}">Create new</a>
-    {% endif %}
-    
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Author</th>
-                <th>Last_read</th>
-                <!-- <th>Downloadable</th>
+{% if authorized %}
+<a href="{{ path('book_new') }}">Create new</a>
+{% endif %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Last_read</th>
+            <!-- <th>Downloadable</th>
                 <th>Author_id</th> -->
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for book in books %}
-            <tr>
-                <td>{{ book.id }}</td>
-                <td>{{ book.name }}</td>
-                <td>{{ book.author }}</td>
-                <td>{{ book.lastRead ? book.lastRead|date('Y-m-d') : '' }}</td>
-                <!-- <td>{{ book.downloadable ? 'Yes' : 'No' }}</td> -->
-                <!-- <td>{{ book.authorId }}</td> -->
-                <td>
-                {% if book.downloadable %}
-                    <a href="{{ asset('uploads/books/' ~ book.bookFilename) }}">download</a>
+        <tr>
+            <td>
+                <!-- {{ book.id }} -->
+                {% if book.cover %}
+                    {% set cover =  uploaded_asset(book.getBookDir()) %}
+                {% else %}
+                    {% set cover = "/img" %}
+                {% endif %}
+
+                <img src="{{cover}}/cover" alt="{{book.name}}" width="200px">
+            </td>
+            <td>{{ book.name }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.lastRead ? book.lastRead|date('Y-m-d') : '' }}</td>
+            <td>
+                {% if book.downloadable and book.file %}
+                    <a href="{{ path('book_download', {'id': book.id}) }}" target="__blank">download</a>
+                    <a href="{{ path('book_view', {'id': book.id}) }}" target="__blank">view</a>
                 {% endif %}
                 {% if authorized %}
                     <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
-                    {% endif %}
-                </td>
-            </tr>
+                {% endif %}
+            </td>
+        </tr>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+        <tr>
+            <td colspan="7">no records found</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 {% endblock %}

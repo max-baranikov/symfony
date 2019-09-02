@@ -32,28 +32,50 @@ class Book
     private $last_read;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default":false})
      */
     private $downloadable;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="boolean", options={"default":false})
      */
-    private $author_id;
+    private $file;
 
-   /**
-     * @ORM\Column(type="string", nullable=true)
+    /**
+     * @ORM\Column(type="boolean", options={"default":false})
      */
-    private $bookFilename;
+    private $cover;
 
-    public function getBookFilename(): ?string
+    // build book public directory according to its' Id, like /0-10/1/
+    public function getBookDir()
     {
-        return $this->bookFilename;
+        $folder = (int) floor($this->getId() / 10) * 10;
+        $path = '/' . $folder . '-' . ($folder + 10) . '/' . $this->getId();
+
+        return $path;
     }
 
-    public function setBookFilename(?string $bookFilename): self
+    public function getFile(): bool
     {
-        $this->bookFilename = $bookFilename;
+        return $this->file;
+    }
+
+    public function setFile(bool $file)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    
+    public function getCover(): bool
+    {
+        return $this->cover;
+    }
+
+    public function setCover(bool $cover)
+    {
+        $this->cover = $cover;
 
         return $this;
     }
@@ -111,15 +133,4 @@ class Book
         return $this;
     }
 
-    public function getAuthorId(): ?int
-    {
-        return $this->author_id;
-    }
-
-    public function setAuthorId(?int $author_id): self
-    {
-        $this->author_id = $author_id;
-
-        return $this;
-    }
 }
