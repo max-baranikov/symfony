@@ -11,6 +11,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Image</th>
             <th>Name</th>
             <th>Author</th>
@@ -22,9 +23,11 @@
     </thead>
     <tbody>
         {% for book in books %}
-        <tr>
+        <tr id="{{book.id}}">
             <td>
-                <!-- {{ book.id }} -->
+                {{ book.id }}
+            </td>
+            <td>
                 {% if book.cover %}
                     {% set cover =  uploaded_asset(book.getBookDir()) %}
                 {% else %}

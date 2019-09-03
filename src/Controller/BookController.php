@@ -92,11 +92,11 @@ class BookController extends AbstractController
             $bookFile = $form['book_filename']->getData();
             if ($bookFile) {
                 // ...
-                if ($book->getFile()) {
-                    $old_file = $book->getBookDir() . '/book.pdf';
-                    // delete old file if its exists
-                    $fileUploader->remove($old_file);
-                }
+                // if ($book->getFile()) {
+                //     $old_file = $book->getBookDir() . '/book.pdf';
+                //     // delete old file if its exists
+                //     $fileUploader->remove($old_file);
+                // }
                 // upload and set the new one
                 $bookFileName = $fileUploader->upload($bookFile, $book->getBookDir(), 'book.pdf');
                 $book->setFile(true);
@@ -106,11 +106,11 @@ class BookController extends AbstractController
             $coverFile = $form['cover_filename']->getData();
             if ($coverFile) {
                 // ...
-                if ($book->getFile()) {
-                    $old_file = $book->getBookDir() . '/cover';
-                    // delete old file if its exists
-                    $fileUploader->remove($old_file);
-                }
+                // if ($book->getFile()) {
+                //     $old_file = $book->getBookDir() . '/cover';
+                //     // delete old file if its exists
+                //     $fileUploader->remove($old_file);
+                // }
                 // upload and set the new one
                 $coverFileName = $fileUploader->upload($coverFile, $book->getBookDir(), 'cover');
                 $book->setCover(true);

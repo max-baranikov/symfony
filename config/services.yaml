@@ -31,3 +31,7 @@ services:
         arguments:
             $targetDirectory: '%books_directory%'
             $publicPath: '%books_url%'
+
+    App\EventListener\BookSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }            
