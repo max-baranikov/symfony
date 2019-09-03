@@ -19,6 +19,16 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
+    private $apiKey;
+
+    public function setApiKey(string $apiKey)
+    {
+        $this->apiKey = $apiKey;
+    }
+
     public function __construct()
     {
         parent::__construct();

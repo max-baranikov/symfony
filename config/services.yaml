@@ -34,4 +34,7 @@ services:
 
     App\EventListener\BookSubscriber:
         tags:
-            - { name: doctrine.event_subscriber }            
+            - { name: doctrine.event_subscriber }  
+
+    sensio_framework_extra.view.listener:
+        alias: Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener                      

@@ -15,6 +15,15 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        api:
+            pattern: ^/api
+            anonymous: ~
+            logout: ~
+            stateless: true            
+
+            guard:
+                authenticators:
+                    - App\Security\KeyAuthenticator
         main:
             pattern: ^/
             form_login:
@@ -35,3 +44,4 @@ security:
         - { path: ^/book/new, role: ROLE_USER, methods: [GET, POST]}        # for creating books
         - { path: ^/book/\d/edit, role: ROLE_USER, methods: [GET, POST]}    # for editing books
         - { path: ^/book/\d, role: ROLE_USER, methods: [DELETE]}            # for deleting books
+        - { path: ^/api/, role: ROLE_USER, methods: [GET, POST]}        # for API

@@ -2,6 +2,7 @@
 namespace App\EventListener;
 
 use App\Entity\Book;
+use App\Entity\User;
 use App\Service\FileUploader;
 use Doctrine\Common\EventSubscriber;
 // for Doctrine < 2.4: use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -21,23 +22,28 @@ class BookSubscriber implements EventSubscriber
     {
         return [
             Events::preRemove,
+            Events::prePersist,
         ];
     }
 
     public function preRemove(LifecycleEventArgs $args)
     {
-        $this->index($args);
-    }
-
-    public function index(LifecycleEventArgs $args)
-    {
         $entity = $args->getObject();
 
         if ($entity instanceof Book) {
-            $entityManager = $args->getObjectManager();
             $this->fileUploader->remove($entity->getBookDir());
             // $this->fileUploader->remove($entity->getBookDir() . '/cover');
             // $this->fileUploader->remove($entity->getBookDir() . '/book.pdf');
+        }
+    }
+
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        $entity = $args->getObject();
+
+        if ($entity instanceof User) {
+            // I should improve in the future commits
+            $entity->setApiKey(md5(time() . 'apiKey'));
         }
     }
 }

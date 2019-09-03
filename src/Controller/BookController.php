@@ -14,12 +14,12 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/book")
+ * @Route("/book", name="book_")
  */
 class BookController extends AbstractController
 {
     /**
-     * @Route("/", name="book_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
     public function index(BookRepository $bookRepository): Response
     {
@@ -29,7 +29,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="book_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     function new (Request $request, FileUploader $fileUploader): Response {
         $book = new Book();
@@ -79,7 +79,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="book_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Book $book, FileUploader $fileUploader): Response
     {
@@ -128,7 +128,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="book_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Book $book): Response
     {
@@ -142,7 +142,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route("/download/{id}", name="book_download", methods={"GET","POST"})
+     * @Route("/download/{id}", name="download", methods={"GET","POST"})
      */
     public function download(Request $request, Book $book): Response
     {
@@ -150,7 +150,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route("/view/{id}", name="book_view", methods={"GET","POST"})
+     * @Route("/view/{id}", name="view", methods={"GET","POST"})
      */
     public function view(Request $request, Book $book): Response
     {
