@@ -38,7 +38,7 @@
             </td>
             <td>{{ book.name }}</td>
             <td>{{ book.author }}</td>
-            <td>{{ book.lastRead ? book.lastRead|date('Y-m-d') : '' }}</td>
+            <td>{{ book.lastRead ? book.lastRead|date('d.m.Y') : '' }}</td>
             <td>
                 {% if book.downloadable and book.file %}
                     <a href="{{ path('book_download', {'id': book.id}) }}" target="__blank">download</a>

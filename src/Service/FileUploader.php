@@ -2,20 +2,12 @@
 // src/Service/FileUploader.php
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Service\UploadPather;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-class FileUploader
+class FileUploader extends UploadPather
 {
-    private $targetDirectory;
-    private $publicPath;
-
-    public function __construct($targetDirectory, $publicPath)
-    {
-        $this->targetDirectory = $targetDirectory;
-        $this->publicPath = $publicPath;
-    }
-
     public function upload(UploadedFile $file, string $path = '', ?string $fileName = null)
     {
         // avoid bad charcters and ununique filenames
@@ -75,24 +67,6 @@ class FileUploader
                 return false;
             }
         }
-    }
-    public function getTargetDirectory()
-    {
-        return $this->targetDirectory;
-    }
-
-    public function getPublicPath(?string $path)
-    {
-        $publicPath = $this->publicPath;
-        if (!is_null($path)) {
-            if ($path[0] != '/') {
-                $publicPath .= '/';
-            }
-
-            $publicPath .= $path;
-        }
-
-        return $publicPath;
     }
 
 }

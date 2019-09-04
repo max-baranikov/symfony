@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/book", name="book_")
+ * @Route("/books", name="book_")
  */
 class BookController extends AbstractController
 {
@@ -29,7 +29,7 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET","POST"})
+     * @Route("/add", name="new", methods={"GET","POST"})
      */
     function new (Request $request, FileUploader $fileUploader): Response {
         $book = new Book();
@@ -62,12 +62,12 @@ class BookController extends AbstractController
             // save files on the server after Doctrine generate the Id
             // save book file as book.pdf to /uploads/0-10/1/book.pdf
             if ($bookFile) {
-                $bookFileName = $fileUploader->upload($bookFile, $book->getBookDir(), 'book.pdf');
+                $bookFileName = $fileUploader->upload($bookFile, $book->getBookDir(), Book::BOOK_FILE);
             }
 
             // save book cover file as cover to /uploads/0-10/1/cover
             if ($coverFile) {
-                $coverFileName = $fileUploader->upload($coverFile, $book->getBookDir(), 'cover');
+                $coverFileName = $fileUploader->upload($coverFile, $book->getBookDir(), Book::BOOK_COVER);
             }
 
             return $this->redirectToRoute('book_index');
@@ -93,12 +93,12 @@ class BookController extends AbstractController
             if ($bookFile) {
                 // ...
                 // if ($book->getFile()) {
-                //     $old_file = $book->getBookDir() . '/book.pdf';
+                //     $old_file = $book->getFilePath();
                 //     // delete old file if its exists
                 //     $fileUploader->remove($old_file);
                 // }
                 // upload and set the new one
-                $bookFileName = $fileUploader->upload($bookFile, $book->getBookDir(), 'book.pdf');
+                $bookFileName = $fileUploader->upload($bookFile, $book->getBookDir(), Book::BOOK_FILE);
                 $book->setFile(true);
             }
 
@@ -107,12 +107,12 @@ class BookController extends AbstractController
             if ($coverFile) {
                 // ...
                 // if ($book->getFile()) {
-                //     $old_file = $book->getBookDir() . '/cover';
+                //     $old_file = $book->getCoverPath();
                 //     // delete old file if its exists
                 //     $fileUploader->remove($old_file);
                 // }
                 // upload and set the new one
-                $coverFileName = $fileUploader->upload($coverFile, $book->getBookDir(), 'cover');
+                $coverFileName = $fileUploader->upload($coverFile, $book->getBookDir(), Book::BOOK_COVER);
                 $book->setCover(true);
             }
 
@@ -161,7 +161,7 @@ class BookController extends AbstractController
     {
         if ($book->getDownloadable()) {
             $upload_path = $this->getParameter('books_directory');
-            $book_path = $upload_path . $book->getBookDir() . '/book.pdf';
+            $book_path = $upload_path . $book->getFilePath();
 
             if (file_exists($book_path)) {
                 $file = new File($book_path);

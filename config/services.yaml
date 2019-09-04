@@ -28,6 +28,16 @@ services:
     # please note that last definitions always *replace* previous ones
 
     App\Service\FileUploader:
+        parent: App\Service\UploadPather
+        autowire: true      
+        autoconfigure: false
+
+    App\Service\BookFormatter:
+        parent: App\Service\UploadPather
+        autowire: true      
+        autoconfigure: false
+
+    App\Service\UploadPather:
         arguments:
             $targetDirectory: '%books_directory%'
             $publicPath: '%books_url%'

@@ -29,6 +29,8 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
+                default_target_path: book_index
+                use_referer: true
 
             logout:       true
             anonymous:    true
