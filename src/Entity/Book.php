@@ -49,6 +49,12 @@ class Book
      */
     private $cover;
 
+    // set default values
+    public function __construct() {
+        $this->downloadable = false;
+        $this->file = false;
+        $this->cover = false;
+    }
     // build book public directory according to its' Id, like /0-10/1/
     public function getBookDir()
     {
@@ -134,7 +140,7 @@ class Book
         return $this;
     }
 
-    public function getDownloadable(): ?bool
+    public function getDownloadable(): bool
     {
         return $this->downloadable;
     }

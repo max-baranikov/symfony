@@ -42,8 +42,8 @@ class BookSubscriber implements EventSubscriber
         $entity = $args->getObject();
 
         if ($entity instanceof User) {
-            // I should improve in the future commits
-            $entity->setApiKey(md5(time() . 'apiKey'));
+            // Kind of improvement
+            $entity->setApiKey(md5($entity->serialize() . time() . 'apiKey'));
         }
     }
 }

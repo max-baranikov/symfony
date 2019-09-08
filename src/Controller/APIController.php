@@ -1,15 +1,15 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Book;
 use App\Form\APIType;
+use App\Form\BookType;
 use App\Service\BookFormatter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use App\Entity\Book;
-use App\Form\BookType;
 
 /**
  * Book controller.
@@ -65,25 +65,21 @@ class APIController extends FOSRestController
     }
 
     /**
-     * Create new book (fields: name, author,).
+     * Create new book (fields: name, author, last_read).
      * @Route("/add", name="add", methods={"GET", "POST"})
      *
      */
     public function addBook(Request $request)
     {
+        $result = array();
         $book = new Book();
+
         $form = $this->createForm(APIType::class, $book);
         $data = json_decode($request->getContent(), true);
 
-        unset($data['apiKey']);
-
-        $result = array();
         $form->submit($data);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $book->setCover(false);
-            $book->setFile(false);
-            $book->setDownloadable(false);
 
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($book);
             $em->flush();
@@ -102,4 +98,34 @@ class APIController extends FOSRestController
         return new JsonResponse($result, $http_status, [], true);
     }
 
+    /**
+     * Edit book.
+     * @Route("/{id}/edit", name="edit", methods={"PUT"}, requirements={"id"="\d+"})
+     *
+     */
+    public function editBook(Request $request, Book $book)
+    {
+        $result = array();
+        $form = $this->createForm(APIType::class, $book);
+        $data = json_decode($request->getContent(), true);
+        $serializer = $this->get('jms_serializer');
+
+        $form->submit($data, false);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            // update entity
+            $this->getDoctrine()->getManager()->flush();
+
+            $result['status'] = 'ok';
+            $http_status = Response::HTTP_ACCEPTED;
+        } else {
+            $result['status'] = 'fail';
+            $result['msg'] = $form->getErrors();
+            
+            $http_status = Response::HTTP_NOT_FOUND;
+        }
+
+        $result = $serializer->serialize($result, 'json');
+        return new JsonResponse($result, $http_status, [], true);
+    }
 }
