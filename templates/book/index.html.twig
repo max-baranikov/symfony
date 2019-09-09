@@ -5,7 +5,7 @@
 
 {% block body %}
 {% if authorized %}
-<a href="{{ path('book_new') }}" class="book__new">Create new</a>
+<a href="{{ path('book_new') }}" class="btn btn-block btn-outline-success book__new">Create new</a>
 {% endif %}
 
 <table class="table">
@@ -41,11 +41,12 @@
             <td>{{ book.lastRead ? book.lastRead|date('d.m.Y') : '' }}</td>
             <td>
                 {% if book.downloadable and book.file %}
-                    <a href="{{ path('book_download', {'id': book.id}) }}" target="__blank">download</a>
-                    <a href="{{ path('book_view', {'id': book.id}) }}" target="__blank">view</a>
+                    <a href="{{ path('book_download', {'id': book.id}) }}" target="__blank" class="btn btn-success">download</a>
+                    <a href="{{ path('book_view', {'id': book.id}) }}" target="__blank" class="btn btn-info">view</a>
                 {% endif %}
                 {% if authorized %}
-                    <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
+                    <a href="{{ path('book_edit', {'id': book.id}) }}" class="btn btn-dark">edit</a>
+                    {{ include('book/_delete_form.html.twig') }}
                 {% endif %}
             </td>
         </tr>

@@ -1,6 +1,9 @@
+<!-- {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %} -->
+
 {{ form_start(form) }}
+    <a href="{{ path('book_index') }}" class="btn btn-primary">back to list</a>
     {{ form_widget(form) }}
     {{ form_row(form.book_filename)}}
     {{ form_row(form.cover_filename)}}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-success">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

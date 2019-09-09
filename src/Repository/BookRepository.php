@@ -23,6 +23,7 @@ class BookRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('b')
             ->orderBy('b.last_read', 'ASC')     // order by last_read field
+            ->orderBy('b.id', 'ASC')     // order by last_read field
             ->getQuery()
             ->useResultCache(true)              // cache result of this query
             ->setResultCacheLifetime(86400)     // cache life time is 24 hours (60*60*24)
