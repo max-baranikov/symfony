@@ -8,6 +8,7 @@ parameters:
     books_directory: '%kernel.project_dir%/public%books_url%'
     # should move uploads from `public` to `files` and create separate download function in apicontroller
     files_dir:  '%kernel.project_dir%\files'
+    api_key: 'a78243a640d21054b6277bfb0beeaf47'
 services:
     # default configuration for services in *this* file
     _defaults:
