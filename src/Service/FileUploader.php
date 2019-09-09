@@ -3,8 +3,8 @@
 namespace App\Service;
 
 use App\Service\UploadPather;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileUploader extends UploadPather
 {
@@ -37,8 +37,8 @@ class FileUploader extends UploadPather
     {
         $full_path = $this->getTargetDirectory() . '/' . $filepath;
 
-        if (is_file($full_path)) {
-            if (file_exists($full_path)) {
+        if (file_exists($full_path)) {
+            if (is_file($full_path)) {
                 try {
                     unlink($full_path);
                     return true;
@@ -46,25 +46,26 @@ class FileUploader extends UploadPather
                     //throw $th;
                     return false;
                 }
-            }
-        } else {
-            //Get a list of all of the file names in the folder.
-            $files = glob($full_path . '/*');
-            try {
+            } else {
+                //Get a list of all of the file names in the folder.
+                $files = glob($full_path . '/*');
+                try {
 
-                //Loop through the file list.
-                foreach ($files as $file) {
-                    //Make sure that this is a file and not a directory.
-                    if (is_file($file)) {
-                        //Use the unlink function to delete the file.
-                        unlink($file);
+                    //Loop through the file list.
+                    foreach ($files as $file) {
+                        //Make sure that this is a file and not a directory.
+                        if (is_file($file)) {
+                            //Use the unlink function to delete the file.
+                            unlink($file);
+                        }
                     }
+                    // and finally delete the directory
+                    rmdir($full_path);
+
+                    return true;
+                } catch (Exception $th) {
+                    return false;
                 }
-                // and finally delete the directory
-                rmdir($full_path);
-                return true;
-            } catch (Exception $th) {
-                return false;
             }
         }
     }
