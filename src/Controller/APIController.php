@@ -7,7 +7,7 @@ use App\Form\BookType;
 use App\Service\BookFormatter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -15,24 +15,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  * Book controller.
  * @Route("/api/v1/books", name="api_")
  */
-class APIController extends FOSRestController
+class APIController extends AbstractController
 {
-    // /**
-    //  * Lists all Books (FOSRest).
-    //  * @Rest\Get("/", name="list")
-    //  *
-    //  * @return Response
-    //  */
-    // public function getBookAction(Request $request, BookFormatter $bookFormatter)
-    // {
-    //     $repository = $this->getDoctrine()->getRepository(Book::class);
-    //     $books = $repository->findall();
-
-    //     $books_formatted = $bookFormatter->formatArray($request,$books);
-
-    //     return $this->handleView($this->view($books_formatted));
-    // }
-
+    
     /**
      * Lists all Books (JMS/Serializer).
      * @Route("/", name="list", methods={"GET"})
