@@ -3,13 +3,13 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Form\APIType;
-use App\Form\BookType;
 use App\Service\BookFormatter;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use JMS\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Book controller.
@@ -17,7 +17,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class APIController extends AbstractController
 {
-    
+    public function __construct(SerializerInterface $serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
     /**
      * Lists all Books (JMS/Serializer).
      * @Route("/", name="list", methods={"GET"})
@@ -27,11 +31,9 @@ class APIController extends AbstractController
     {
         $repository = $this->getDoctrine()->getRepository(Book::class);
         $books = $repository->findall();
-
         $books_formatted = $bookFormatter->formatArray($request, $books);
 
-        $serializer = $this->get('jms_serializer');
-        $books_json = $serializer->serialize($books_formatted, 'json');
+        $books_json = $this->serializer->serialize($books_formatted, 'json');
         return new JsonResponse($books_json, Response::HTTP_OK, [], true);
     }
 
@@ -44,8 +46,7 @@ class APIController extends AbstractController
     {
         $book_formatted = $bookFormatter->format($request, $book);
 
-        $serializer = $this->get('jms_serializer');
-        $books_json = $serializer->serialize($book_formatted, 'json');
+        $books_json = $this->serializer->serialize($book_formatted, 'json');
         return new JsonResponse($books_json, Response::HTTP_OK, [], true);
     }
 
@@ -78,8 +79,7 @@ class APIController extends AbstractController
             $http_status = Response::HTTP_NOT_FOUND;
         }
 
-        $serializer = $this->get('jms_serializer');
-        $result = $serializer->serialize($result, 'json');
+        $result = $this->serializer->serialize($result, 'json');
         return new JsonResponse($result, $http_status, [], true);
     }
 
@@ -93,10 +93,9 @@ class APIController extends AbstractController
         $result = array();
         $form = $this->createForm(APIType::class, $book);
         $data = json_decode($request->getContent(), true);
-        $serializer = $this->get('jms_serializer');
 
         $form->submit($data, false);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             // update entity
             $this->getDoctrine()->getManager()->flush();
@@ -106,11 +105,11 @@ class APIController extends AbstractController
         } else {
             $result['status'] = 'fail';
             $result['msg'] = $form->getErrors();
-            
+
             $http_status = Response::HTTP_NOT_FOUND;
         }
 
-        $result = $serializer->serialize($result, 'json');
+        $result = $this->serializer->serialize($result, 'json');
         return new JsonResponse($result, $http_status, [], true);
     }
 }
