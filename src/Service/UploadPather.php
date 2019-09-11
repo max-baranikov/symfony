@@ -12,12 +12,21 @@ class UploadPather
         $this->publicPath = $publicPath;
     }
 
-    public function getTargetDirectory()
+    public function getTargetDirectory(?string $path=null)
     {
-        return $this->targetDirectory;
+        $targetDirectory = $this->targetDirectory;
+        if (!is_null($path)) {
+            if ($path[0] != '/') {
+                $targetDirectory .= '/';
+            }
+
+            $targetDirectory .= $path;
+        }
+        return $targetDirectory;
+
     }
 
-    public function getPublicPath(?string $path)
+    public function getPublicPath(?string $path=null)
     {
         $publicPath = $this->publicPath;
         if (!is_null($path)) {

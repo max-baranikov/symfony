@@ -19,7 +19,8 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+            <directory>tests/Controller</directory>
+            <directory>tests/EventListener</directory>
         </testsuite>
     </testsuites>
 
