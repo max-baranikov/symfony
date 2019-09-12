@@ -1,4 +1,4 @@
-{% set authorized = (app.user != null) %}
+{% set authorized = is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
 <!DOCTYPE html>
 <html>
