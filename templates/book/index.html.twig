@@ -28,13 +28,7 @@
                 {{ book.id }}
             </td>
             <td>
-                {% if book.cover %}
-                {% set cover =  uploaded_asset(book.getBookDir()) %}
-            {% else %}
-                {% set cover = "/img" %}
-            {% endif %}
-
-            <img src="{{cover}}/cover" alt="{{book.name}}" width="200px">
+               {{img(book)}}
             </td>
             <td>{{ book.name }}</td>
             <td>{{ book.author }}</td>
@@ -46,7 +40,6 @@
                 {% endif %}
                 {% if authorized %}
                     <a href="{{ path('book_edit', {'id': book.id}) }}" class="btn btn-dark">edit</a>
-                    <!-- {{ include('book/_delete_form.html.twig') }} -->
                 {% endif %}
             </td>
         </tr>

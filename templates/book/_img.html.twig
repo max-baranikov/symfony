@@ -1,0 +1,7 @@
+{% if book.cover %}
+    {% set cover =  uploaded_asset(book.getCoverPath) %}
+{% else %}
+    {% set cover = "/img/cover" %}
+{% endif %}
+
+<img src="{{cover}}" alt="{{book.name}}" width="200px">

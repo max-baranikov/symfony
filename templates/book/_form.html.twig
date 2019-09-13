@@ -2,6 +2,7 @@
 
 {{ form_start(form) }}
     <a href="{{ path('book_index') }}" class="btn btn-primary">back to list</a>
+    {{ img(form.vars.value)}}
     {{ form_widget(form) }}
     {{ form_row(form.book_filename)}}
     {{ form_row(form.cover_filename)}}

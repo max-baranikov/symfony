@@ -2,6 +2,7 @@
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
+use App\Entity\Book;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -25,7 +26,19 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('uploaded_asset', [$this, 'getUploadedAssetPath']),
+            new TwigFunction('img', [$this, 'getBookImage'], array(
+                'is_safe' => array('html'),
+                'needs_environment' => true,
+            )),
         ];
+    }
+
+    public function getBookImage(\Twig_Environment $environment, Book $book)
+    {
+        $renderArray = array(
+            'book' => $book,
+        );
+        return $environment->render('book/_img.html.twig', $renderArray);
     }
 
     public function getUploadedAssetPath(?string $path)
