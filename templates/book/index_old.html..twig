@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book index{% endblock %}
+{% block header__title %}Book index{% endblock %}
+
+{% block body %}
+{% if authorized %}
+<a href="{{ path('book_new') }}" class="btn btn-block btn-outline-success books__new">Create new</a>
+{% endif %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Last_read</th>
+            <!-- <th>Downloadable</th>
+                <th>Author_id</th> -->
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr id="{{book.id}}">
+            <td>
+                {{ book.id }}
+            </td>
+            <td>
+               {{img(book)}}
+            </td>
+            <td>{{ book.name }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.lastRead ? book.lastRead|date('d.m.Y') : '' }}</td>
+            <td>
+                {% if book.downloadable and book.file %}
+                    <a href="{{ path('book_download', {'id': book.id}) }}" target="__blank" class="btn btn-success">download</a>
+                    <a href="{{ path('book_view', {'id': book.id}) }}" target="__blank" class="btn btn-info">view</a>
+                {% endif %}
+                {% if authorized %}
+                    <a href="{{ path('book_edit', {'id': book.id}) }}" class="btn btn-dark">edit</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="7">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

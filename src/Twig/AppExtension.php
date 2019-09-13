@@ -33,10 +33,11 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function getBookImage(\Twig_Environment $environment, Book $book)
+    public function getBookImage(\Twig_Environment $environment, Book $book, $params = null)
     {
         $renderArray = array(
             'book' => $book,
+            'params' => $params,
         );
         return $environment->render('book/_img.html.twig', $renderArray);
     }

@@ -4,4 +4,11 @@
     {% set cover = "/img/cover" %}
 {% endif %}
 
-<img src="{{cover}}" alt="{{book.name}}" width="200px">
+    <img src="{{cover}}" alt="{{book.name}}" 
+        {% if params.size is defined %} 
+            width="{{params.size}}"
+        {% endif %} 
+        {% if params.class is defined %} 
+            class="{{params.class}}"
+        {% endif %} 
+    >

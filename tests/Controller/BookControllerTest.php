@@ -20,7 +20,7 @@ class BookControllerTest extends WebTestCase
         // check that button `Create new` isn't rendered for unauthorized user
         $this->assertEquals(
             0,
-            $crawler->filter('html a.book__new')->count()
+            $crawler->filter('html a.books__new')->count()
         );
 
         $crawler = $client->request('GET', '/books/add'); // trying to load the page anyway
@@ -53,7 +53,7 @@ class BookControllerTest extends WebTestCase
         // check that btn `Create new` is rendered
         $this->assertGreaterThan(
             0,
-            $crawler->filter('html a.book__new')->count()
+            $crawler->filter('html a.books__new')->count()
         );
 
         $crawler = $client->clickLink('Create new'); // follow link
