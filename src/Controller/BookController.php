@@ -62,12 +62,12 @@ class BookController extends AbstractController
             // save files on the server after Doctrine generate the Id
             // save book file as book.pdf to /uploads/0-10/1/book.pdf
             if ($bookFile) {
-                $bookFileName = $fileUploader->upload($bookFile, $book->getBookDir(), Book::BOOK_FILE);
+                $bookFileName = $fileUploader->upload($bookFile, $book->getBookDir(), $book->getFileName());
             }
 
             // save book cover file as cover to /uploads/0-10/1/cover
             if ($coverFile) {
-                $coverFileName = $fileUploader->upload($coverFile, $book->getBookDir(), Book::BOOK_COVER);
+                $coverFileName = $fileUploader->upload($coverFile, $book->getBookDir(), $book->getCoverName(), false);
             }
 
             return $this->redirectToRoute('book_index');
@@ -98,7 +98,7 @@ class BookController extends AbstractController
                 //     $fileUploader->remove($old_file);
                 // }
                 // upload and set the new one
-                $bookFileName = $fileUploader->upload($bookFile, $book->getBookDir(), Book::BOOK_FILE);
+                $bookFileName = $fileUploader->upload($bookFile, $book->getBookDir(), $book->getFileName());
                 $book->setFile(true);
             }
 
@@ -112,7 +112,7 @@ class BookController extends AbstractController
                 //     $fileUploader->remove($old_file);
                 // }
                 // upload and set the new one
-                $coverFileName = $fileUploader->upload($coverFile, $book->getBookDir(), Book::BOOK_COVER);
+                $coverFileName = $fileUploader->upload($coverFile, $book->getBookDir(), $book->getCoverName(), false);
                 $book->setCover(true);
             }
 
@@ -147,7 +147,7 @@ class BookController extends AbstractController
     public function deleteCover(Request $request, Book $book, FileUploader $fileUploader): Response
     {
         if ($this->isCsrfTokenValid('delete_cover' . $book->getId(), $request->request->get('_token'))) {
-            $fileUploader->remove($book->getCoverPath());
+            $fileUploader->remove($book->getCoverPath(), false);
             $book->setCover(false);
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -167,13 +167,14 @@ class BookController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete_file' . $book->getId(), $request->request->get('_token'))) {
             $fileUploader->remove($book->getFilePath());
-            $book->settFile(false);
+            $book->setFile(false);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('book_edit', [
+            'id' => $book->getId(),
             'book' => $book,
         ]
         );
@@ -198,7 +199,7 @@ class BookController extends AbstractController
     private function getBookFile(Book $book, bool $download = true)
     {
         if ($book->getDownloadable()) {
-            $upload_path = $this->getParameter('books_directory');
+            $upload_path = $this->getParameter('books_dir');
             $book_path = $upload_path . $book->getFilePath();
 
             if (file_exists($book_path)) {

@@ -30,6 +30,6 @@ class AppExtension extends AbstractExtension
 
     public function getUploadedAssetPath(?string $path)
     {
-        return $this->fileUploader->getPublicPath($path);
+        return $this->fileUploader->getUploadsURL($path);
     }
 }

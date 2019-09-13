@@ -4,10 +4,17 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    books_url: '/uploads'
-    books_directory: '%kernel.project_dir%/public%books_url%'
-    # should move uploads from `public` to `files` and create separate download function in apicontroller
+    # internal private storage for books
     files_dir:  '%kernel.project_dir%\files'
+    books_dir: '%files_dir%\books'
+    
+    # relative url for public storage
+    uploads_url: '/uploads'
+    # internal public storage for covers
+    public_dir:  '%kernel.project_dir%\public'
+    uploads_dir: '%public_dir%%uploads_url%'
+    
+    # apiKey param for testing (stored in `fos_user` table)
     api_key: 'a78243a640d21054b6277bfb0beeaf47'
 services:
     # default configuration for services in *this* file
@@ -42,8 +49,9 @@ services:
 
     App\Service\UploadPather:
         arguments:
-            $targetDirectory: '%books_directory%'
-            $publicPath: '%books_url%'
+            $booksDir: '%books_dir%'
+            $uploadsDir: '%uploads_dir%'
+            $uploadsURL: '%uploads_url%'
 
     App\EventListener\BookSubscriber:
         tags:

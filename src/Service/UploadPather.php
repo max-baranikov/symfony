@@ -1,42 +1,61 @@
 <?php
 namespace App\Service;
 
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 class UploadPather
 {
-    protected $targetDirectory;
-    protected $publicPath;
+    protected $booksDir;
+    protected $uploadsURL;
+    protected $uploadsDir;
+    protected $router;
 
-    public function __construct($targetDirectory, $publicPath)
+    public function __construct($booksDir, $uploadsDir, $uploadsURL, UrlGeneratorInterface $router)
     {
-        $this->targetDirectory = $targetDirectory;
-        $this->publicPath = $publicPath;
+        $this->booksDir = $booksDir;
+        $this->uploadsDir = $uploadsDir;
+        $this->uploadsURL = $uploadsURL;
+        $this->router = $router;
     }
 
-    public function getTargetDirectory(?string $path=null)
+    public function getBooksDir(?string $path = null)
     {
-        $targetDirectory = $this->targetDirectory;
+        $booksDir = $this->booksDir;
         if (!is_null($path)) {
             if ($path[0] != '/') {
-                $targetDirectory .= '/';
+                $booksDir .= '/';
             }
 
-            $targetDirectory .= $path;
+            $booksDir .= $path;
         }
-        return $targetDirectory;
+        return $booksDir;
+
+    }
+    public function getUploadsDir(?string $path = null)
+    {
+        $uploadsDir = $this->uploadsDir;
+        if (!is_null($path)) {
+            if ($path[0] != '/') {
+                $uploadsDir .= '/';
+            }
+
+            $uploadsDir .= $path;
+        }
+        return $uploadsDir;
 
     }
 
-    public function getPublicPath(?string $path=null)
+    public function getUploadsURL(?string $path = null)
     {
-        $publicPath = $this->publicPath;
+        $uploadsURL = $this->uploadsURL;
         if (!is_null($path)) {
             if ($path[0] != '/') {
-                $publicPath .= '/';
+                $uploadsURL .= '/';
             }
 
-            $publicPath .= $path;
+            $uploadsURL .= $path;
         }
-        return $publicPath;
+        return $uploadsURL;
     }
 
 }

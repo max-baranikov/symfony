@@ -15,7 +15,7 @@ class BookSubscriberTest extends WebTestCase
         $doctrine = $container->get('doctrine');
         $repository = $doctrine->getRepository(Book::class);
         
-        $targetDir = $container->getParameter('books_directory');   // get server's upload directory
+        $targetDir = $container->getParameter('books_dir');   // get server's upload directory
 
         // find book, which contains the cover and the file (fields in my entity)
         $book = $repository->findOneBy([

@@ -31,9 +31,9 @@ class BookSubscriber implements EventSubscriber
         $entity = $args->getObject();
 
         if ($entity instanceof Book) {
-            $this->fileUploader->remove($entity->getBookDir());
-            // $this->fileUploader->remove($entity->getCoverPath());
-            // $this->fileUploader->remove($entity->getFilePath());
+            // $this->fileUploader->remove($entity->getBookDir());
+            $this->fileUploader->remove($entity->getCoverPath(),false);
+            $this->fileUploader->remove($entity->getFilePath());
         }
     }
 

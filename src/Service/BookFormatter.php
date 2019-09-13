@@ -10,10 +10,16 @@ class BookFormatter extends UploadPather
     public function format(Request $request, Book $book)
     {
         $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
-        $uploadDir = $baseurl . $this->publicPath;
+        $uploadDir = $baseurl . $this->uploadsURL;
 
-        $coverUrl = ((file_exists($this->targetDirectory . $book->getCoverPath())) ? ($uploadDir . $book->getCoverPath()) : null);
-        $fileUrl = (($book->getDownloadable() && file_exists($this->targetDirectory . $book->getFilePath())) ? ($uploadDir . $book->getFilePath()) : null);
+        $coverUrl = ((file_exists($this->uploadsDir . $book->getCoverPath())) ? ($uploadDir . $book->getCoverPath()) : null);
+
+        if ($book->getDownloadable() && file_exists($this->booksDir . $book->getFilePath())) {
+            $path = $this->router->generate('book_download', ['id' => $book->getId()]);
+            $fileUrl = $baseurl . $path;
+        } else {
+            $fileUrl = null;
+        }
 
         return array(
             'id' => $book->getId(),

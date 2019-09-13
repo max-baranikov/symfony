@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Book
 {
     public const BOOK_FILE = 'book.pdf';
-    public const BOOK_COVER = 'cover';
+    public const BOOK_COVER = 'cover.jpg';
     
     /**
      * @ORM\Id()
@@ -59,19 +59,30 @@ class Book
     public function getBookDir()
     {
         $folder = (int) floor($this->getId() / 10) * 10;
-        $path = '/' . $folder . '-' . ($folder + 10) . '/' . $this->getId();
+        $path = '/' . $folder . '-' . ($folder + 10);
 
         return $path;
     }
 
+    public function getFileName()
+    {
+        return $this->getId() . '_' .self::BOOK_FILE;
+    }
+    
+    public function getCoverName()
+    {
+        return $this->getId() . '_' .self::BOOK_COVER;
+    }
+
+
     public function getFilePath()
     {
-        return $this->getBookDir() . '/' . Book::BOOK_FILE;
+        return $this->getBookDir() . '/' . $this->getFileName();
     }
     
     public function getCoverPath()
     {
-        return $this->getBookDir() . '/' . Book::BOOK_COVER;
+        return $this->getBookDir() . '/' . $this->getCoverName();
     }
 
     public function getFile(): bool

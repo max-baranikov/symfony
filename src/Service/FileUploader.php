@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileUploader extends UploadPather
 {
-    public function upload(UploadedFile $file, string $path = '', ?string $fileName = null)
+    public function upload(UploadedFile $file, string $path = '', ?string $fileName = null, bool $private = true)
     {
         // avoid bad charcters and ununique filenames
         if (is_null($fileName)) {
@@ -22,9 +22,16 @@ class FileUploader extends UploadPather
         }
 
         try {
-            // not so good, because there will be a lot of files in just one folder
-            // guess will be better to split it up by id range [1-20], [21-40], etc.
-            $file->move($this->getTargetDirectory() . $path, $fileName);
+            // define whether it will be stored in public or private folder
+            if($private)
+            {
+                $path = $this->getBooksDir() . $path;
+            }
+            else {
+                $path = $this->getUploadsDir() . $path;
+            }
+
+            $file->move($path, $fileName);
         } catch (FileException $e) {
             return false;
             // ... handle exception if something happens during file upload
@@ -33,9 +40,15 @@ class FileUploader extends UploadPather
         return $fileName;
     }
 
-    public function remove($filepath)
+    public function remove($full_path, $private = true)
     {
-        $full_path = $this->getTargetDirectory() . '/' . $filepath;
+        if($private)
+        {
+            $full_path = $this->getBooksDir() . '/' . $full_path;
+        }
+        else {
+            $full_path = $this->getUploadsDir() . '/' . $full_path;
+        }
 
         if (file_exists($full_path)) {
             if (is_file($full_path)) {
