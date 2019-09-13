@@ -1,5 +1,21 @@
-<form method="post" action="{{ path('book_delete', {'id': book.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('book_delete', {'id': book.id}) }}"
+    onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ book.id) }}">
-    <button class="btn btn-danger">Delete</button>
+    <button class="btn btn-danger">Delete book</button>
+</form>
+
+<form method="post" action="{{ path('book_delete_cover', {'id': book.id}) }}"
+    onsubmit="return confirm('Are you sure you want to delete book cover?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete_cover' ~ book.id) }}">
+    <button class="btn btn-danger">Delete cover</button>
+</form>
+
+
+<form method="post" action="{{ path('book_delete_file', {'id': book.id}) }}"
+    onsubmit="return confirm('Are you sure you want to delete book file?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete_file' ~ book.id) }}">
+    <button class="btn btn-danger">Delete file</button>
 </form>

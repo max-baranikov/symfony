@@ -41,7 +41,7 @@ class BookController extends AbstractController
             /** @var UploadedFile $bookFile */
             $bookFile = $form['book_filename']->getData();
             if ($bookFile) {
-                    $book->setFile(true);
+                $book->setFile(true);
             } else {
                 $book->setFile(false);
             }
@@ -49,12 +49,12 @@ class BookController extends AbstractController
             /** @var UploadedFile $coverFile */
             $coverFile = $form['cover_filename']->getData();
             if ($coverFile) {
-                    $book->setCover(true);
+                $book->setCover(true);
             } else {
                 $book->setCover(false);
             }
 
-
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($book);
             $entityManager->flush();
@@ -139,6 +139,44 @@ class BookController extends AbstractController
         }
 
         return $this->redirectToRoute('book_index');
+    }
+
+    /**
+     * @Route("/{id}/cover", name="delete_cover", methods={"DELETE"}, requirements={"id"="\d+"})
+     */
+    public function deleteCover(Request $request, Book $book, FileUploader $fileUploader): Response
+    {
+        if ($this->isCsrfTokenValid('delete_cover' . $book->getId(), $request->request->get('_token'))) {
+            $fileUploader->remove($book->getCoverPath());
+            $book->setCover(false);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('book_edit', [
+            'id' => $book->getId(),
+            'book' => $book,
+        ]
+        );
+    }
+    /**
+     * @Route("/{id}/file", name="delete_file", methods={"DELETE"}, requirements={"id"="\d+"})
+     */
+    public function deleteFile(Request $request, Book $book, FileUploader $fileUploader): Response
+    {
+        if ($this->isCsrfTokenValid('delete_file' . $book->getId(), $request->request->get('_token'))) {
+            $fileUploader->remove($book->getFilePath());
+            $book->settFile(false);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('book_edit', [
+            'book' => $book,
+        ]
+        );
     }
 
     /**
