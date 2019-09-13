@@ -2,6 +2,16 @@
 
 {% block title %}New Book{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('file_input') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('file_input') }}
+{% endblock %}
+
 {% block body %}
     <h1>Create new Book</h1>
 

@@ -20,6 +20,9 @@ class BookType extends AbstractType
             ->add('downloadable')
             ->add('book_filename', FileType::class, [
                 'label' => 'Book (PDF file)',
+                'attr' => array(
+                    'placeholder' => 'Select your pdf file',
+                ),
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -43,6 +46,9 @@ class BookType extends AbstractType
             ])
             ->add('cover_filename', FileType::class, [
                 'label' => 'Book cover (jpg or png file)',
+                'attr' => array(
+                    'placeholder' => 'Select your jpg or png file',
+                ),
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
