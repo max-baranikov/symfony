@@ -2,39 +2,51 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app')}}
-        {% endblock %}
-    </head>
-    <body>
-        {% block header %}
-        <header class="header container-fluid text-light bg-dark shadow">
-            <div class="row">
-                <div class="logo_wrap col-4">
-                    <img src="/img/logo.png" alt="Logo" class="logo">
-                </div>
-                <h2 class="title col-4 text-center">{% block header__title %}Welcome!{% endblock %}</h2>
-                
-                <div class="profile col-4 text-right">
-                    {% if authorized %}
-                <span>User: {{app.user.username}}</span>
-                <a href="{{ path('fos_user_security_logout') }}" class="btn btn-outline-secondary">Logout</a>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+    {{ encore_entry_link_tags('app')}}
+    {% endblock %}
+</head>
+
+<body>
+    {% block header %}
+    <header class="header container-fluid text-light bg-dark shadow">
+        <div class="row">
+            <div class="logo_wrap col-4 col-xs-3">
+                <img src="/img/logo.png" alt="Logo" class="logo">
+            </div>
+            <h2 class="title col-4 col-xs-offset-1 text-center">{% block header__title %}Welcome!{% endblock %}</h2>
+
+            <div class="profile col-4 text-right">
+                {% if authorized %}
+                <span>
+    <i class="fas fa-user"></i>
+    {{app.user.username}}
+</span>
+                <a href="{{ path('fos_user_security_logout') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Logout
+                </a>
                 {% else %}
-                <a href="{{ path('fos_user_security_login') }}" class="btn btn-outline-secondary">Login</a>
+                <a href="{{ path('fos_user_security_login') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </a>
                 {% endif %}
             </div>
         </div>
-        </header>
-        {% endblock %}
-        <main class="main">
-            {% block body %}{% endblock %}
+    </header>
+    {% endblock %}
+    <main class="main">
+        {% block body %}{% endblock %}
 
-        </main>
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app')}}
-        {% endblock %}
-    </body>
+    </main>
+    {% block javascripts %}
+    {{ encore_entry_script_tags('app')}}
+    {% endblock %}
+</body>
+
 </html>

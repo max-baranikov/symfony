@@ -4,6 +4,27 @@
 .books__new{
     margin-bottom: 30px;
 }
+.books__control{
+    padding: 20% 4%;
+    background: rgba(0,0,0,0.3);
+    opacity: 0;
+    transition-property: opacity, padding-top;
+    transition-duration: .1s;
+    transition-timing-function: ease-in
+}
+.books__link{
+    font-size: 2rem;
+}
+.books__item:hover {
+    box-shadow: 3px 3px 5px gray;
+    border: 1px solid gray;
+}
+    .books__item:hover .books__control{
+    opacity: 1;
+    padding-top: 40%;
+}
+
 .empty{
-    max-width: 300px
+    font-size: 15rem;
+    color: gray;
 }

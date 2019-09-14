@@ -21,8 +21,8 @@
 <div class="books row">
     <!-- <div id="bookMosaic" class="card-columns"> -->
     {% for book in books %}
-    <div class="books__item col-sm-6 col-md-4 col-lg-3">
-        <div class="card hoverable" id="{{book.id}}">
+    <div class="books__item-wrap col-sm-6 col-md-4 col-lg-3">
+        <div class="books__item card hoverable" id="{{book.id}}">
             {{img(book, {
             'class' : 'card-img-top zoom'
         })}}
@@ -32,15 +32,17 @@
                 <p class="card-text"> <small class="text-muted">Last read
                         {{ book.lastRead ? book.lastRead|date('d.m.Y') : '' }}</small></p>
             </div>
-            <div class="card-footer text-center">
+            <div class="card-img-overlay text-center align-items-center books__control">
                 <div class="btn-group">
                     {% if authorized %}
-                    <a href="{{ path('book_edit', {'id': book.id}) }}" class="btn btn-dark">edit</a>
+                    <a href="{{ path('book_edit', {'id': book.id}) }}" class="books__link btn btn-dark" title="Edit book"> <i
+                            class="fas fa-edit"></i></a>
                     {% endif %}
                     {% if book.downloadable and book.file %}
-                    <a href="{{ path('book_download', {'id': book.id}) }}" target="__blank"
-                        class="btn btn-success">download</a>
-                    <a href="{{ path('book_view', {'id': book.id}) }}" target="__blank" class="btn btn-info">view</a>
+                    <a href="{{ path('book_download', {'id': book.id}) }}" target="__blank" class="books__link btn btn-success" title="Download book"> <i
+                            class="fas fa-file-download"></i> </a>
+                    <a href="{{ path('book_view', {'id': book.id}) }}" target="__blank" class="books__link btn btn-info" title="View book"> <i
+                            class="fas fa-eye"></i></a>
                     {% endif %}
                 </div>
             </div>
@@ -48,10 +50,10 @@
     </div>
 
     {% else %}
-        <div class="col-12 text-center">
-            <img src="/img/empty.png" alt="no records found" class="empty">
-            <h3 colspan="7">no records found</h3>
-        </div>
+    <div class="col-12 text-center">
+        <i class="far fa-sad-tear empty"></i>
+        <h3 colspan="7">no records found</h3>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}
