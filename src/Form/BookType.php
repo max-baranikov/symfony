@@ -4,10 +4,10 @@ namespace App\Form;
 
 use App\Entity\Book;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class BookType extends AbstractType
 {
@@ -20,9 +20,9 @@ class BookType extends AbstractType
             ->add('downloadable')
             ->add('book_filename', FileType::class, [
                 'label' => 'Book (PDF file)',
-                'attr' => array(
+                'attr' => [
                     'placeholder' => 'Select your pdf file',
-                ),
+                ],
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -41,14 +41,14 @@ class BookType extends AbstractType
                             'application/x-pdf',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid PDF document',
-                    ])
+                    ]),
                 ],
             ])
             ->add('cover_filename', FileType::class, [
                 'label' => 'Book cover (jpg or png file)',
-                'attr' => array(
+                'attr' => [
                     'placeholder' => 'Select your jpg or png file',
-                ),
+                ],
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -69,7 +69,7 @@ class BookType extends AbstractType
                             'image/jpg',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid PNG or JPG image',
-                    ])
+                    ]),
                 ],
             ])
         ;
