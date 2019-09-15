@@ -5,15 +5,15 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     # internal private storage for books
-    files_dir:  '%kernel.project_dir%\files'
-    books_dir: '%files_dir%\books'
-    
+    files_dir:  '%kernel.project_dir%/files'
+    books_dir: '%files_dir%/books'
+
     # relative url for public storage
     uploads_url: '/uploads'
     # internal public storage for covers
-    public_dir:  '%kernel.project_dir%\public'
+    public_dir:  '%kernel.project_dir%/public'
     uploads_dir: '%public_dir%%uploads_url%'
-    
+
     # apiKey param for testing (stored in `fos_user` table)
     api_key: 'a78243a640d21054b6277bfb0beeaf47'
 services:
@@ -39,12 +39,12 @@ services:
 
     App\Service\FileUploader:
         parent: App\Service\UploadPather
-        autowire: true      
+        autowire: true
         autoconfigure: false
 
     App\Service\BookFormatter:
         parent: App\Service\UploadPather
-        autowire: true      
+        autowire: true
         autoconfigure: false
 
     App\Service\UploadPather:
@@ -55,7 +55,7 @@ services:
 
     App\EventListener\BookSubscriber:
         tags:
-            - { name: doctrine.event_subscriber }  
+            - { name: doctrine.event_subscriber }
 
     sensio_framework_extra.view.listener:
-        alias: Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener                      
+        alias: Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener

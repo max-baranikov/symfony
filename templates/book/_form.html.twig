@@ -13,7 +13,6 @@
             {{ img(form.vars.value, {
                 'class' : 'preview card-img shadow mw-100',
             })}}
-
             <div class="preview__overlay card-img-overlay text-white d-flex justify-content-center align-items-center">
                 <button class="preview__upload btn btn-outline-light text-uppercase">
                     <i class="fas fa-upload"></i>
@@ -21,6 +20,7 @@
                 </button>
             </div>
         </div>
+        <div class="preview__errors">{{ form_errors(form.cover_filename)}} </div>
         <div class="d-none">
             {{ form_row(form.cover_filename)}}
         </div>
