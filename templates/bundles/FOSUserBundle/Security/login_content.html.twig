@@ -4,7 +4,7 @@
     {% if error %}
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-    
+
     <form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin m-auto text-center" style="max-width: 400px">
 
         <h2 class="form-signin-heading">Please sign in</h2>
@@ -19,8 +19,8 @@
                 </div>
                 <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
             </div>
-    
-        
+
+
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label class="input-group-text" for="password"><i class="fas fa-key"></i></label>
@@ -32,11 +32,12 @@
         <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
         <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
     </div>
-    
-    <button class="btn btn-lg btn-primary btn-block" type="submit" id="_submit" name="_submit">
+
+    <button class="btn btn-lg btn-primary btn-block mb-3" type="submit" id="_submit" name="_submit">
     <i class="fas fa-sign-in-alt"></i>
     {{ 'security.login.submit'|trans }}
 </button>
+<p>or <a href="{{ path('fos_user_registration_register')}}">Sign up</a></p>
 </form>
 
 </div>

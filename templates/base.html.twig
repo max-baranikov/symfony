@@ -16,25 +16,49 @@
     <header class="header container-fluid text-light bg-dark shadow">
         <div class="row">
             <div class="logo_wrap col-4 col-xs-3">
-                <img src="/img/logo.png" alt="Logo" class="logo">
+                <a href="{{ path('book_index') }}">
+                    <img src="/img/logo.png" alt="Logo" class="logo">
+                </a>
             </div>
             <h2 class="title col-4 col-xs-offset-1 text-center">{% block header__title %}Welcome!{% endblock %}</h2>
 
             <div class="profile col-4 text-right">
                 {% if authorized %}
-                <span>
-    <i class="fas fa-user"></i>
-    {{app.user.username}}
-</span>
-                <a href="{{ path('fos_user_security_logout') }}" class="btn btn-outline-secondary">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Logout
-                </a>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuProfile" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                            {{app.user.username}}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuProfile">
+                            <a href="{{ path('fos_user_security_logout') }}" class="dropdown-item">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
                 {% else %}
-                <a href="{{ path('fos_user_security_login') }}" class="btn btn-outline-secondary">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Login
-                </a>
+                <div class="btn-group">
+                    <div class="btn-group dropleft" role="group">
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                        <a href="{{ path('fos_user_security_login') }}" class="dropdown-item">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Login
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ path('fos_user_registration_register') }}" class="dropdown-item">
+                            <i class="fas fa-user-plus"></i>
+                            Register
+                        </a>
+                    </div>
+                    <a href="{{ path('fos_user_security_login') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login
+                    </a>
+                </div>
                 {% endif %}
             </div>
         </div>
