@@ -15,7 +15,7 @@ parameters:
     uploads_dir: '%public_dir%%uploads_url%'
 
     # apiKey param for testing (stored in `fos_user` table)
-    api_key: 'a78243a640d21054b6277bfb0beeaf47'
+    api_key: '9a1221d0325eb3075b3e4db7a86918cc'
 services:
     # default configuration for services in *this* file
     _defaults:

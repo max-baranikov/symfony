@@ -1,15 +1,19 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Book;
 use App\Form\APIType;
 use App\Service\BookFormatter;
 use JMS\Serializer\SerializerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use FOS\UserBundle\Model\UserManagerInterface as UserManager;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface as EncoderFactory;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Book controller.
@@ -107,6 +111,45 @@ class APIController extends AbstractController
             $result['msg'] = $form->getErrors();
 
             $http_status = Response::HTTP_NOT_FOUND;
+        }
+
+        $result = $this->serializer->serialize($result, 'json');
+        return new JsonResponse($result, $http_status, [], true);
+    }
+
+    /**
+     * Get credentials.
+     * @Route("/token", name="token", methods={"GET"})
+     *
+     */
+    public function getToken(Request $request, EncoderFactory $factory, UserManager $user_manager)
+    {
+        $result = array();
+        $_username = $request->get('username');
+        $_password = $request->get('password');
+
+        // Retrieve the user by its username:
+        $user = $user_manager->findUserByUsername($_username);
+
+        // Check if the user exists !
+        if (!$user) {
+            $result['message'] = 'Username doesnt exists';
+            $http_status = Response::HTTP_UNAUTHORIZED;
+        } else {
+
+            /// Start verification
+            $encoder = $factory->getEncoder($user);
+            $salt = $user->getSalt();
+
+            if (!$encoder->isPasswordValid($user->getPassword(), $_password, $salt)) {
+                $result['message'] = 'Username or Password not valid.';
+                $http_status = Response::HTTP_UNAUTHORIZED;
+            } else {
+                /// End Verification
+                // The password matches
+                $result['apiKey'] = $user->getApiKey();
+                $http_status = Response::HTTP_OK;
+            }
         }
 
         $result = $this->serializer->serialize($result, 'json');

@@ -29,6 +29,12 @@ class User extends BaseUser
         $this->apiKey = $apiKey;
     }
 
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+
     public function __construct()
     {
         parent::__construct();
