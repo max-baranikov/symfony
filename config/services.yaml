@@ -5,17 +5,17 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     # internal private storage for books
-    files_dir:  '%kernel.project_dir%/files'
-    books_dir: '%files_dir%/books'
+    app.files.dir:  '%kernel.project_dir%/files'
+    app.books.dir: '%app.files.dir%/books'
 
     # relative url for public storage
-    uploads_url: '/uploads'
+    app.uploads.url: '/uploads'
     # internal public storage for covers
-    public_dir:  '%kernel.project_dir%/public'
-    uploads_dir: '%public_dir%%uploads_url%'
+    app.public.dir:  '%kernel.project_dir%/public'
+    app.uploads.dir: '%app.public.dir%%app.uploads.url%'
 
     # apiKey param for testing (stored in `fos_user` table)
-    api_key: '9a1221d0325eb3075b3e4db7a86918cc'
+    app.api.key: '9a1221d0325eb3075b3e4db7a86918cc'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -49,9 +49,9 @@ services:
 
     App\Service\UploadPather:
         arguments:
-            $booksDir: '%books_dir%'
-            $uploadsDir: '%uploads_dir%'
-            $uploadsURL: '%uploads_url%'
+            $booksDir: '%app.books.dir%'
+            $uploadsDir: '%app.uploads.dir%'
+            $uploadsURL: '%app.uploads.url%'
 
     App\EventListener\BookSubscriber:
         tags:

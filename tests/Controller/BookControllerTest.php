@@ -43,7 +43,7 @@ class BookControllerTest extends WebTestCase
             'PHP_AUTH_PW' => 'user',
         ]);
 
-        $path = $client->getContainer()->getParameter('files_dir');     // get path of files directory
+        $path = $client->getContainer()->getParameter('app.files.dir');     // get path of files directory
 
         $client->followRedirects(true); // allow auto following redirects
         $crawler = $client->request('GET', '/books');
@@ -82,16 +82,16 @@ class BookControllerTest extends WebTestCase
         $crawler = $client->submit($form);
 
         // echo $client->getResponse()->getContent();
-        
-        
+
+
         // check that it's in the list
         $this->assertGreaterThan(
             0,
             $crawler->filter('html tr td:contains("'.$name.'")')->count()
-        );        
+        );
         // $this->assertSelectorTextContains('html tr td', $name);  // unfortunately this one doesnt work for me
 
-        
+
         // find new book on the page
         $crawler = $crawler->filter('html tr td:contains("'.$name.'")')->parents();
 
@@ -99,6 +99,6 @@ class BookControllerTest extends WebTestCase
         $this->assertGreaterThan(
             0,
             $crawler->filter('td a:contains("download")')->count()
-        );        
+        );
     }
 }

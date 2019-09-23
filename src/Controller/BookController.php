@@ -54,7 +54,7 @@ class BookController extends AbstractController
                 $book->setCover(false);
             }
 
-            
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($book);
             $entityManager->flush();
@@ -91,12 +91,6 @@ class BookController extends AbstractController
             /** @var UploadedFile $bookFile */
             $bookFile = $form['book_filename']->getData();
             if ($bookFile) {
-                // ...
-                // if ($book->getFile()) {
-                //     $old_file = $book->getFilePath();
-                //     // delete old file if its exists
-                //     $fileUploader->remove($old_file);
-                // }
                 // upload and set the new one
                 $bookFileName = $fileUploader->upload($bookFile, $book->getBookDir(), $book->getFileName());
                 $book->setFile(true);
@@ -105,12 +99,6 @@ class BookController extends AbstractController
             /** @var UploadedFile $coverFile */
             $coverFile = $form['cover_filename']->getData();
             if ($coverFile) {
-                // ...
-                // if ($book->getFile()) {
-                //     $old_file = $book->getCoverPath();
-                //     // delete old file if its exists
-                //     $fileUploader->remove($old_file);
-                // }
                 // upload and set the new one
                 $coverFileName = $fileUploader->upload($coverFile, $book->getBookDir(), $book->getCoverName(), false);
                 $book->setCover(true);
@@ -199,7 +187,7 @@ class BookController extends AbstractController
     private function getBookFile(Book $book, bool $download = true)
     {
         if ($book->getDownloadable()) {
-            $upload_path = $this->getParameter('books_dir');
+            $upload_path = $this->getParameter('app.books.dir');
             $book_path = $upload_path . $book->getFilePath();
 
             if (file_exists($book_path)) {

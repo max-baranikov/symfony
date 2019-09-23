@@ -35,7 +35,7 @@ class APIControllerTest extends WebTestCase
     {
         $params = array();
         if (!is_null($goodKey)) {
-            $apiKey =  $this->client->getContainer()->getParameter('api_key');
+            $apiKey =  $this->client->getContainer()->getParameter('app.api.key');
             $params['apiKey'] = (!$goodKey) ? 'wrong_key' : $apiKey;
         }
 
