@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" media="all" href="files/readme/custom.css" />
+
 # Library app (Symfony 4.3)
 
 Simple CRUD web-application for Book Library.
@@ -108,9 +110,8 @@ There's a REST API, implemented four main methods to work with:
 * ```GET api/v1/books/{id}/info ``` - is method to show info for the particular book, specified by it's id
 * ```POST api/v1/books/add ``` - is method to create a new book
 * ```PUT api/v1/books/{id}/edit ``` - is method to edit the particular book, specified by it's id
-* ```GET api/v1/books/token ``` - is method to get apiKey by username and password
 
-Each method must be provided with **apiKey** GET/POST parameter, which can be gotted with ```api/v1/books/token``` method. ApiKey stored in the database's table *fos_user* and is unique for each user.
+Each method must be provided with **apiKey** GET/POST parameter, which can be gotted with ```GET api/v1/books/token``` method. It takes **username** and **password** as a parameters and return apiKey value credentials is valid. ApiKey stored in the database's table *fos_user* and is unique for each user.
 
 Response format is *json*.
 
@@ -159,6 +160,7 @@ And if everything is allright, the response should be
     "file": "http://localhost:8000/books/download/1"
 }
 ```
+
 <!--
 ## Develop
 
